@@ -14,9 +14,6 @@ const WishlistPage = () => {
         const localWishlistData = localStorage.getItem("Wishlist");
         const initialWishlist = localWishlistData ? JSON.parse(localWishlistData) : [];
         setWishlist(initialWishlist);
-        const getwishlistCounter = localStorage.getItem('wishlist Counter');
-        const wishlistCounterData = getwishlistCounter ? JSON.parse(getwishlistCounter) : 0;
-        setwhishlistcounter(wishlistCounterData);
     }, [whishlistCount]);
     const handleDeleteFromWishlist = (item: IProduct) => {
         const updatedWishlist = wishlist.filter((product) => product._id !== item._id);

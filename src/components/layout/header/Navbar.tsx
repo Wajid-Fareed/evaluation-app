@@ -5,13 +5,13 @@ import Link from 'next/link'
 import { CiHeart } from 'react-icons/ci'
 import { HiBars3BottomRight, HiOutlineShoppingBag } from 'react-icons/hi2'
 import Container from '../container/Container'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RxCross1 } from 'react-icons/rx'
 import { usePathname } from 'next/navigation'
 import { useProductContext } from '@/components/provider/Provider'
 
 const Navbar = () => {
-    const { cartCount , whishlistCount } = useProductContext();
+    const { cartCount , whishlistCount , setcartCount , setwhishlistcounter } = useProductContext();
     const [visibleMenu, setVisibleMenu] = useState(false);
     const pathName = usePathname();
     const handleMenu = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -21,6 +21,14 @@ const Navbar = () => {
     const isActive = (href: string): string => {
         return pathName === href ? "text-cta border-primary animation-active" : "text-black group-hover:text-cta group-hover:border-primary border-transparent";
     };
+    useEffect(() => {
+        const getcartCounter = localStorage.getItem('cart Counter');
+        const cartCounterData = getcartCounter ? JSON.parse(getcartCounter) : 0;
+        setcartCount(cartCounterData);
+        const getwishlistCounter = localStorage.getItem('wishlist Counter');
+        const wishlistCounterData = getwishlistCounter ? JSON.parse(getwishlistCounter) : 0;
+        setwhishlistcounter(wishlistCounterData);
+    },[cartCount,whishlistCount]);
     return (
         <header className='border-b shadow-sm'>
             <Container>

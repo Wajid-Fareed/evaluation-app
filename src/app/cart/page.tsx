@@ -14,9 +14,6 @@ const CartPage = () => {
         const getcart = localStorage.getItem('Cart');
         const cartData = getcart ? JSON.parse(getcart) : [];
         setCartData(cartData);
-        const getcartCounter = localStorage.getItem('cart Counter');
-        const cartCounterData = getcartCounter ? JSON.parse(getcartCounter) : 0;
-        setcartCount(cartCounterData);
     }, [cartData]);
     const handleAddToCard = (item: IProduct) => {
         const getcart = localStorage.getItem('Cart');
