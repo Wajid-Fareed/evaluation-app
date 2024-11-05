@@ -11,7 +11,21 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        cta: "var(--cta)",
+        ctaHover: "var(--ctaHover)",
+        primary: "var(--primary)",
+        light: "var(--light)",
       },
+      screens: {
+        xs: '480px',
+        xsm: '380px'
+      },
+      fontSize: {
+        10: '10px',
+        11: '11px',
+        12: '12px',
+        13: '13px',
+      }
     },
   },
   plugins: [],

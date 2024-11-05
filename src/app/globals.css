@@ -5,17 +5,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --cta: #003566;
+  --ctaHover: #183B56;
+  --primary: #EDB043;
+  --light: #C3C1BD;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
