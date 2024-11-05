@@ -1,23 +1,5 @@
-import { INavItems, IProduct } from "@/type/type";
+import { IProduct } from "@/type/type";
 
-export const NavData: INavItems[] = [
-    {
-        id: 1,
-        title: 'Home',
-        href: '/'
-    },
-    {
-        id: 2,
-        title: 'About Us',
-        href: '/about-us'
-    },
-    {
-        id: 3,
-        title: 'Profile',
-        href: '/profile'
-    }
-
-]
 
 export const ProductData: IProduct[] = [
     {

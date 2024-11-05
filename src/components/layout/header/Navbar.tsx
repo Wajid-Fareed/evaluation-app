@@ -1,17 +1,16 @@
 
 'use client'
-import { NavData } from '@/data/data'
 import Link from 'next/link'
 import { CiHeart } from 'react-icons/ci'
 import { HiBars3BottomRight, HiOutlineShoppingBag } from 'react-icons/hi2'
 import Container from '../container/Container'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { RxCross1 } from 'react-icons/rx'
 import { usePathname } from 'next/navigation'
 import { useProductContext } from '@/components/provider/Provider'
 
 const Navbar = () => {
-    const { cartCount , whishlistCount , setcartCount , setwhishlistcounter } = useProductContext();
+    const { cart, wishlist } = useProductContext();
     const [visibleMenu, setVisibleMenu] = useState(false);
     const pathName = usePathname();
     const handleMenu = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -21,14 +20,9 @@ const Navbar = () => {
     const isActive = (href: string): string => {
         return pathName === href ? "text-cta border-primary animation-active" : "text-black group-hover:text-cta group-hover:border-primary border-transparent";
     };
-    useEffect(() => {
-        const getcartCounter = localStorage.getItem('cart Counter');
-        const cartCounterData = getcartCounter ? JSON.parse(getcartCounter) : 0;
-        setcartCount(cartCounterData);
-        const getwishlistCounter = localStorage.getItem('wishlist Counter');
-        const wishlistCounterData = getwishlistCounter ? JSON.parse(getwishlistCounter) : 0;
-        setwhishlistcounter(wishlistCounterData);
-    },[cartCount,whishlistCount]);
+    const cartCounters = () => {
+        return cart.reduce((total, item) => total + item.cartQuantity, 0);
+    };
     return (
         <header className='border-b shadow-sm'>
             <Container>
@@ -37,28 +31,36 @@ const Navbar = () => {
                         Evaluation <span className='text-primary'>App</span>
                     </Link>
                     <ul className="hidden gap-8 md:flex">
-                        {NavData.map((item) => (
-                            <li key={item.id} className='group'>
-                                <Link href={item.href} className={`text-lg font-medium border-b-2 transition-all duration-300 ${isActive(item.href)}`}>
-                                    {item.title}
-                                </Link>
-                            </li>
-                        ))}
+                        <li className='group'>
+                            <Link href='/' className={`text-lg font-medium border-b-2 transition-all duration-300 ${isActive('/')}`}>
+                                Home
+                            </Link>
+                        </li>
+                        <li className='group'>
+                            <Link href='/about-us' className={`text-lg font-medium border-b-2 transition-all duration-300 ${isActive('/about-us')}`}>
+                                About
+                            </Link>
+                        </li>
+                        <li className='group'>
+                            <Link href='/profile' className={`text-lg font-medium border-b-2 transition-all duration-300 ${isActive('/profile')}`}>
+                                Profile
+                            </Link>
+                        </li>
                     </ul>
 
 
                     <div className='flex items-center gap-4 xs:gap-6'>
                         <Link href='/cart' className='relative'>
                             <HiOutlineShoppingBag size={25} />
-                            {cartCount && cartCount > 0 ? (<span className='absolute -top-1 -right-2 bg-cta text-white text-12 w-6 h-5 rounded-lg flex justify-center items-center'>
-                                {cartCount}
-                            </span>): ''}
+                            {cart.length > 0 ? (<span className='absolute -top-1 -right-2 bg-cta text-white text-12 w-6 h-5 rounded-lg flex justify-center items-center'>
+                                {cartCounters()}
+                            </span>) : ''}
 
                         </Link>
                         <Link href='/wishlist' className='relative'>
                             <CiHeart size={30} />
-                            {whishlistCount && whishlistCount > 0 ? (<span className='absolute top-0 -right-2 bg-cta text-white text-12 w-6 h-5 rounded-lg flex justify-center items-center'>
-                                {whishlistCount}
+                            {wishlist.length > 0 ? (<span className='absolute top-0 -right-2 bg-cta text-white text-12 w-6 h-5 rounded-lg flex justify-center items-center'>
+                                {wishlist.length}
                             </span>) : ''}
                         </Link>
                         <div className='block md:hidden'>
@@ -66,13 +68,21 @@ const Navbar = () => {
                             <div className={`absolute top-0 right-0 transition-all duration-300 bg-white h-full border shadow-md ${!visibleMenu ? 'opacity-0 w-0 p-0' : 'w-64 opacity-100 p-5'}`}>
                                 <div className='relative'>
                                     <ul className='flex flex-col gap-4 overflow-hidden'>
-                                        {NavData.map((item) => (
-                                            <li key={item.id} className='group'>
-                                                <Link href={item.href} className={`text-lg font-medium ${isActive(item.href)}`}>
-                                                    {item.title}
-                                                </Link>
-                                            </li>
-                                        ))}
+                                        <li className='group'>
+                                            <Link href='/' className={`text-lg font-medium border-b-2 transition-all duration-300 ${isActive('/')}`}>
+                                                Home
+                                            </Link>
+                                        </li>
+                                        <li className='group'>
+                                            <Link href='/' className={`text-lg font-medium border-b-2 transition-all duration-300 ${isActive('/about-us')}`}>
+                                                About
+                                            </Link>
+                                        </li>
+                                        <li className='group'>
+                                            <Link href='/profile' className={`text-lg font-medium border-b-2 transition-all duration-300 ${isActive('/profile')}`}>
+                                                Profile
+                                            </Link>
+                                        </li>
                                     </ul>
                                     <button onClick={handleMenu} className='absolute top-0 right-0'><RxCross1 size={30} /></button>
                                 </div>

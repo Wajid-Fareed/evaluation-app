@@ -1,11 +1,5 @@
 import { StaticImageData } from "next/image";
 
-export interface INavItems {
-    id: number;
-    title: string;
-    href: string;
-}
-
 export interface IProduct {
     posterImageUrl: IPosterImg;
     _id: string;
@@ -65,4 +59,8 @@ export interface IProductContext {
     setcartCount: React.Dispatch<React.SetStateAction<number | undefined>>;
     whishlistCount?: number;
     setwhishlistcounter: React.Dispatch<React.SetStateAction<number | undefined>>;
+    cart: IProduct[];
+    setCart: React.Dispatch<React.SetStateAction<IProduct[]>>;
+    wishlist: IProduct[];
+    setWishlist: React.Dispatch<React.SetStateAction<IProduct[]>>;
   }

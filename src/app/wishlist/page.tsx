@@ -4,54 +4,34 @@ import { useProductContext } from '@/components/provider/Provider';
 import { IProduct } from '@/type/type';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
 import { RxCross1 } from 'react-icons/rx';
 
 const WishlistPage = () => {
-    const [wishlist, setWishlist] = useState<IProduct[]>([]);
-    const { whishlistCount , setwhishlistcounter } = useProductContext();
-    useEffect(() => {
-        const localWishlistData = localStorage.getItem("Wishlist");
-        const initialWishlist = localWishlistData ? JSON.parse(localWishlistData) : [];
-        setWishlist(initialWishlist);
-    }, [whishlistCount]);
+    const { setWishlist, wishlist, cart, setCart } = useProductContext();
+
     const handleDeleteFromWishlist = (item: IProduct) => {
-        const updatedWishlist = wishlist.filter((product) => product._id !== item._id);
+        const updatedWishlist = wishlist.filter((wishlistItem) => wishlistItem._id !== item._id)
         setWishlist(updatedWishlist);
         localStorage.setItem("Wishlist", JSON.stringify(updatedWishlist));
-        const getwishlistCounter = localStorage.getItem('wishlist Counter');
-        let wishlistCounterData = getwishlistCounter ? JSON.parse(getwishlistCounter) : 0;
-        wishlistCounterData -= 1;
-        localStorage.setItem('wishlist Counter', JSON.stringify(wishlistCounterData));
-        setwhishlistcounter(wishlistCounterData);
-    };
+      };
     const handleAddToCartFromWishlist = (item: IProduct) => {
-        const updatedWishlist = wishlist.filter((product) => product._id !== item._id);
+        const cartItem = cart.find((cartItem: IProduct) => cartItem._id === item._id);
+
+        if (cartItem) {
+            const newItem = cart.map((cartItem: IProduct) =>
+                cartItem._id === item._id ? { ...cartItem, cartQuantity: cartItem.cartQuantity + 1 } : cartItem
+            )
+            setCart(newItem);
+            localStorage.setItem('Cart', JSON.stringify(newItem));
+        } else {
+            const newItem = [...cart, { ...item, cartQuantity: 1 }];
+            setCart(newItem);
+            localStorage.setItem('Cart', JSON.stringify(newItem));
+        }
+        const updatedWishlist = wishlist.filter((wishlistItem) => wishlistItem._id !== item._id)
         setWishlist(updatedWishlist);
         localStorage.setItem("Wishlist", JSON.stringify(updatedWishlist));
-        const getwishlistCounter = localStorage.getItem('wishlist Counter');
-        let wishlistCounterData = getwishlistCounter ? JSON.parse(getwishlistCounter) : 0;
-        wishlistCounterData -= 1;
-        localStorage.setItem('wishlist Counter', JSON.stringify(wishlistCounterData));
-        setwhishlistcounter(wishlistCounterData);
-        const getcart = localStorage.getItem('Cart');
-        const cartData = getcart ? JSON.parse(getcart) : [];
-        const getcartCounter = localStorage.getItem('cart Counter');
-        let cartCounterData = getcartCounter ? JSON.parse(getcartCounter) : 0;
-        cartCounterData += 1;
-        localStorage.setItem('cart Counter', JSON.stringify(cartCounterData));
-        const cartItem = cartData.find((item: IProduct) => item._id === item._id);
-        if (cartItem) {
-            const newCartData = cartData.map((item: IProduct) =>
-                item._id === item._id ? { ...item, cartQuantity: (item.cartQuantity || 1) + 1 } : item
-            );
-            localStorage.setItem('Cart', JSON.stringify(newCartData));
-        } else {
-            const newCartData = [...cartData, { ...item, cartQuantity: 1 }];
-            localStorage.setItem('Cart', JSON.stringify(newCartData));
-        }
-        window.location.href = "/cart";
-    }
+    };
     return (
         <Container className="py-9">
             <div className="text-center">
@@ -69,7 +49,7 @@ const WishlistPage = () => {
                                         <h4 className='text-lg font-medium'>{item.code}</h4>
                                     </div>
                                 </div>
-                                <p className='flex items-center gap-2 text-base font-medium'>Price: <span>${item.purchasePrice}</span><span className='line-through text-light'>${item.discountPrice}</span></p>
+                                <div className='flex items-center gap-2 text-base font-medium'>Price: <span>${item.purchasePrice}</span><span className='line-through text-light'>${item.discountPrice}</span></div>
 
                             </div>
                             <div>
@@ -93,13 +73,13 @@ const WishlistPage = () => {
                 </div>
             ) : (
                 <div className="text-center min-h-[75vh] mt-2">
-                        <h2 className="text-xl font-bold">No items in Wishlist</h2>
-                        <div className="text-center mt-6">
-                            <Link href="/" className="bg-cta hover:bg-ctaHover text-white py-2 px-4 rounded-md">
-                                Go to home
-                            </Link>
-                        </div>
+                    <h2 className="text-xl font-bold">No items in Wishlist</h2>
+                    <div className="text-center mt-6">
+                        <Link href="/" className="bg-cta hover:bg-ctaHover text-white py-2 px-4 rounded-md">
+                            Go to home
+                        </Link>
                     </div>
+                </div>
             )}
         </Container>
     )
