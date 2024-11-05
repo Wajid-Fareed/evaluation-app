@@ -45,9 +45,9 @@ const CartPage = () => {
         const cartData = getcart ? JSON.parse(getcart) : [];
         const getCartCounter = localStorage.getItem('cart Counter');
         let cartCounterData = getCartCounter ? JSON.parse(getCartCounter) : 0;
-    
+
         const existingItem = cartData.find((cartItem: IProduct) => cartItem._id === itemToRemove._id);
-    
+
         if (existingItem) {
             if (existingItem.cartQuantity > 1) {
                 const newCartData = cartData.map((cartItem: IProduct) =>
@@ -56,14 +56,14 @@ const CartPage = () => {
                         : cartItem
                 );
                 localStorage.setItem('Cart', JSON.stringify(newCartData));
-                cartCounterData = Math.max(cartCounterData - 1, 0); 
+                cartCounterData = Math.max(cartCounterData - 1, 0);
                 localStorage.setItem('cart Counter', JSON.stringify(cartCounterData));
                 setCartData(newCartData);
                 setcartCount(cartCounterData);
             } else {
                 const newCartData = cartData.filter((cartItem: IProduct) => cartItem._id !== itemToRemove._id);
                 localStorage.setItem('Cart', JSON.stringify(newCartData));
-                cartCounterData = Math.max(cartCounterData - 1, 0); 
+                cartCounterData = Math.max(cartCounterData - 1, 0);
                 localStorage.setItem('cart Counter', JSON.stringify(cartCounterData));
                 setCartData(newCartData);
                 setcartCount(cartCounterData);
@@ -75,9 +75,9 @@ const CartPage = () => {
         const getCart = localStorage.getItem('Cart');
         const cartData = getCart ? JSON.parse(getCart) : [];
         const getCartCounter = localStorage.getItem('cart Counter');
-        let cartCounterData = getCartCounter ? JSON.parse(getCartCounter) : 0;    
+        let cartCounterData = getCartCounter ? JSON.parse(getCartCounter) : 0;
         const existingItem = cartData.find((cartItem: IProduct) => cartItem._id === itemToRemove._id);
-    
+
         if (existingItem) {
             cartCounterData = Math.max(cartCounterData - existingItem.cartQuantity, 0);
             setcartCount(cartCounterData);
@@ -87,17 +87,18 @@ const CartPage = () => {
             setCartData(newCartData);
         }
     };
-    
-    
+
+
 
     return (
-        <Container className="py-7">
-            <h2 className="text-4xl font-bold text-center">Shopping Cart</h2>
-            <div className="grid grid-cols-1 py-6 h-[77vh]">
-                {cartData.length > 0 ? (
-                    <div className="overflow-auto max-h-[60vh] ">
-                        {cartData.map((item) => (
-                                <div className="flex items-center justify-between gap-4 my-2" key={item._id}>
+        <Container className="py-6">
+            <div className='min-h-[82vh]'>
+                <h2 className="text-4xl font-bold text-center">Shopping Cart</h2>
+                <div className="grid grid-cols-1 py-6">
+                    {cartData.length > 0 ? (
+                        <div className="overflow-auto">
+                            {cartData.map((item) => (
+                                <div className="flex items-center flex-nowrap justify-between gap-4 my-2 min-w-[800px]" key={item._id}>
                                     <div className='flex gap-4 w-[500px]'>
                                         <Image src={item.posterImageUrl.imageUrl} alt={item.posterImageUrl.public_id} width={300} height={300} className="w-16 h-16 rounded-sm" />
                                         <div className="ml-4">
@@ -125,21 +126,22 @@ const CartPage = () => {
                                         <RxCross1 size={30} />
                                     </button>
                                 </div>
-                        ))}
-                    </div>) : (
-                    <div className="text-center">
-                        <h2 className="text-xl font-bold">No items in cart</h2>
-                        <div className="text-center mt-6">
-                            <Link href="/" className="bg-cta hover:bg-ctaHover text-white py-2 px-4 rounded-md">
-                                Start Shopping
-                            </Link>
+                            ))}
+                        </div>) : (
+                        <div className="text-center">
+                            <h2 className="text-xl font-bold">No items in cart</h2>
+                            <div className="text-center mt-6">
+                                <Link href="/" className="bg-cta hover:bg-ctaHover text-white py-2 px-4 rounded-md">
+                                    Start Shopping
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
 
 
 
 
+                </div>
             </div>
         </Container>
     )

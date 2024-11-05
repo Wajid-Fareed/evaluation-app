@@ -55,7 +55,7 @@ const Navbar = () => {
                         </Link>
                         <div className='block md:hidden'>
                             <button onClick={handleMenu}><HiBars3BottomRight size={30} /></button>
-                            <div className={`absolute top-0 right-0 transition-all duration-300 bg-white p-5  h-full border shadow-md ${!visibleMenu ? 'opacity-0 w-0' : 'w-64 opacity-100'}`}>
+                            <div className={`absolute top-0 right-0 transition-all duration-300 bg-white h-full border shadow-md ${!visibleMenu ? 'opacity-0 w-0 p-0' : 'w-64 opacity-100 p-5'}`}>
                                 <div className='relative'>
                                     <ul className='flex flex-col gap-4 overflow-hidden'>
                                         {NavData.map((item) => (

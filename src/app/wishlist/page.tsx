@@ -77,7 +77,7 @@ const WishlistPage = () => {
                             </div>
                             <div>
                                 <button
-                                    className="bg-black text-white text-xl font-semibold w-52 h-14 flex justify-center items-center rounded-md"
+                                    className="bg-cta hover:bg-ctaHover text-white py-2 px-4 rounded-md"
                                     onClick={() => handleAddToCartFromWishlist(item)}
                                 >
                                     Add to Cart
